@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import UserCreationForm
+from .forms import UsuarioForm
 
 def home(request):
     return render(request, 'index.html')
@@ -28,8 +29,9 @@ def desconectar(request):
     return redirect('home')
 
 def registro(request):
-    form = UserCreationForm(request.POST or None)
+    form = UsuarioForm(request.POST or None)
     if form.is_valid():
+        form.save()
         return redirect('login')
     contexto = {
         'form': form
